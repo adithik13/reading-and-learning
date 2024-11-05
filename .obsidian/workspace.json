@@ -1,0 +1,255 @@
+{
+  "main": {
+    "id": "9951038967be16a4",
+    "type": "split",
+    "children": [
+      {
+        "id": "6adee3777ee0565d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "93deaa723e302bf4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "TCP and IP Protocols.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TCP and IP Protocols"
+            }
+          },
+          {
+            "id": "eda28e9199939cfb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Shure Interview Prep.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Shure Interview Prep"
+            }
+          },
+          {
+            "id": "85f0e6689736b85b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "General Knowledge.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "General Knowledge"
+            }
+          },
+          {
+            "id": "0ca41465aecc9689",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "embedded systems basics.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "embedded systems basics"
+            }
+          },
+          {
+            "id": "b7390e407332fba2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "System Verilog.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "System Verilog"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e22a542e062a1d4d",
+    "type": "split",
+    "children": [
+      {
+        "id": "47eec5bc1df844b4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5fd6927b3edfa099",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "88a1a88eb499baf2",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "8b42fec576a69cb4",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "984dedacd789c8c1",
+    "type": "split",
+    "children": [
+      {
+        "id": "19403a76845fae60",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5eff040d9fc8e1dc",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "data structures & algorithms.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for data structures & algorithms"
+            }
+          },
+          {
+            "id": "af0d2d3bea16abf5",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "microphones.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from microphones"
+            }
+          },
+          {
+            "id": "e63dace3efb4f6ea",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "14d5e0a32475b63e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "microphones.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of microphones"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "5fd6927b3edfa099",
+  "lastOpenFiles": [
+    "git_directory",
+    "Shure Interview Prep.md",
+    "General Knowledge.md",
+    "System Verilog.md",
+    "embedded systems basics.md",
+    "TCP/IP interview questions.md",
+    "Pasted image 20241105131141.png",
+    "Pasted image 20241105125848.png",
+    "Pasted image 20241105124718.png",
+    "Pasted image 20241105122100.png",
+    "TCP and IP Protocols.md",
+    "signal processing techniques.md",
+    "data structures & algorithms.md",
+    "guitar pedal schematics.md",
+    "Pasted image 20241102193452.png",
+    "Circuits.md",
+    "Pasted image 20241102145837.png",
+    "Pasted image 20241102145834.png",
+    "Pasted image 20241102144932.png",
+    "Guitar Chord Tutor Project.md",
+    "Pasted image 20241102004832.png",
+    "UDP.md",
+    "Pasted image 20241102004641.png",
+    "TCP.md",
+    "microphones.md",
+    "javascript and node.js.md",
+    "networking.md",
+    "TCP/ IP Protocols.md",
+    "TCP"
+  ]
+}
