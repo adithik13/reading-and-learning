@@ -1,81 +1,240 @@
 1. how is static keyword different in C++ vs C? 
-2. what is the difference in passing something by reference and passing something by a pointer? 
+	1. in C: the function/ variable is only accessible via functions inside the same sourcefile, comparable to private funcs/members in C++
+	2. in C++: the methods are not members of a class instance, but are more like functions + namespace, and static class members are shared across all instances of the class 
+		1. C++ also has both uses of static
+2. what is the difference in passing something by reference and passing something by a pointer?  
+	1. pass by reference: 
+		1. to pass the reference of an argument in the calling function to the corresponding formal paramteter of the called function 
+		2. called function can modify the value of the argument using its reference passed in
+		3. to modify a reference that's const, we need to un-const it. this is done by using the const_cast operator
+		4. pass by reference is usually more efficient than pass by value because it does not copy the args. when you call a func on the actual arg, then it actually has to go through the dance of really reading or writing the values from mem 
+	2. pass by pointer: 
+		1. to pass a pointer argument in the calling function to the corresponding formal parameter of the called function
+		2. the called function can modify the value of the variable to which the pointer argument points
+		3. when you pass something by pointer, a copy of the **pointer** is passed to the function, and if you modify the pointer inside the called function, then you only modify the copy, and the original points to the same thing as it always did (remains unchanged)
+		4. use pass by pointer if you want to modify the argument value inside the called function, otherwise we can use pass by value
 3. how is const used differently in C++ vs C? 
+	1. c++ :
+		1. internal linkage by default
+		2. can be used as compile time values 
+		3. pointers to string literals must be a char const*
+	2. c
+		1. external linkage by default
+		2. cannot be used as compile time values
+		3. pointers to string literals can be char*
 4. what is an example of the virtual keyword
-	1. write some simple classes like Shape, Square, Circle, etc
-5. microcontroller specifics:
-	1. internals
-	2. ISR
-	3. pipelines
-	4. peripherals
-6. RTOS specific questions
-	1. mutex vs semaphore
-	2. scheduling policies
-	3. context switches
-7. Linux questions
+	1. by default, c++ matches a function call with the correct function definition at compile time
+		1. this is static binding
+	2. you can specify that the compiler match a function with the correct definition at run time instead
+		1. this is called dynamic binding
+	3. you can declare a function as "virtual" if you want the compiler to use dynamic binding for that specific function
+	4. the keyword tells the compiler that it should choose the appropriate definition of f() not by the lvalue ref, but by the type of object that the lvalue reference refers to.
+		1. because of this, a virtual function is a member function that you can redefine for other classes, and can ensure that the compiler will call the redefined virtual function for an object of the corresponding derived class, even if that function is called with a pointer or a reference to the base class of the object itself
+	5. the access for a virtual function is specified only when it is declared
+	6. the access rules for a virtual function are not affected by the access rules for the function that later overrides the virtual function 
+	7. if a virtual function is called with a pointer or reference to a class object, the type of the class object is not used to determine the access of the virtual function 
+		1. instead, we use the type of the **pointer** or **reference
+	8. write some simple classes like Shape, Square, Circle, etc
+6. microcontroller specifics:
+	1. microcontrollers are compact integrated circuits that serve as the "brains" of embedded systems, and control specific functions or devices. they're usually used in applications that require real-time control 
+	2. microcontroller vs microprocessor: 
+		1. microprocessors support versatile computing operations in personal computers and enterprise servers. 
+			1.  clock speed: provide high speed and robust capacities when it comes to clock speed for many diff applications
+			2. circuit size: cannot operate on its own, and relies heavily on external parts like communication chips, I/O ports, RAM and ROM
+				1. because of this, a microP circuit consists of an address and data bus connecting many peripherals and memory chips
+				2. requires considerable amount of space 
+			3. power consumption: since they run at a higher speed, they consume more power and usually need an external power supply, and because of this, a system that relies on a microprocessor overall will have higher power demands
+			4. operating system: microprocessors usually need an OS to provide functionality. without an OS users would have to directly instruct the microP on what to do
+			5. connectivity: microP usually handle more diverse communication technologies than microcontrollers
+				1. for ex, processing USB 3.0 or etheret without another processor
+		2. microcontrollers allow embedded systems to analyze and respond to inputs in real time 
+			1. clock speed: clock speeds for microcontrollers have steadily increased throughout recent decades, but its significantly slower than a microprocessor. however, it can still operate optimally within its dedicated scope of application 
+			2. circuit size: since it is a simpler circuit, it's also often a much more space saving design
+			3. power consumption: microcontrollers are designed to act really well and operate extremely efficiently with minimal power, and most microcontrollers also have further power saving features like power saving mode when not actively processing data 
+				1. they can also turn off internal periphersals not in use 
+				2. this makes them ideal for building a low power application that runs on stored power alone
+			4. operating system: microcontrollers dont really need an OS, but there are some OS that exist for helping mid and high range microcontrollers to run more efficiently 
+			5. connectivity:  microcontrollers usually need a special processor for high speed data connectivity
+	3. internals
+		1. CPU: heart of the microcontroller <3, where data processing and computation happen, executes instructions stored in memory to perform tasks
+			1. microcontroller CPUs are usually low-power and optimized for control tasks rather than raw processing speed
+			2. usually use RISC architectures like ARM Cortex-M for efficiency and simplicity
+		2. Memory(ROM,RAM, and EEPROM): for storing program code, data, and persistent information
+			1. Read-Only Memory (ROM): stores program code and is non volatile, so it retains the data even if the power is removed. 
+				1. flash memory is the most common ROM type and allows for easy reprogramming 
+			2. Random Access Memory (RAM): used for temporary storage of variables and data during program execution, and is volatile, meaning that data is lost when power is turned off 
+			3. Electrically Erasable Programmable ROM (EEPROM): non volatile memory that stores small amounts of data that need to be preserved between power cycles, such as user settings
+		3. I/O Ports: 
+			1. Digital IO: pins can be set to high or low states to control LEDs, switches, etc.
+			2. Analog IO: some microcontrollers have analog input pins connected to ADC or DAC converters to read varying voltage levels (eg for sensors)
+			3. Peripheral Interfaces: microcontrollers also support protocols like I2C, SPI, and UART, which allow connection to a wide variety of components like displays, storage modules, etc 
+		4. Timers & Counters: create delays, measure intervals, generate waveforms, and control the timing of events
+			1. timers: can be configured to trigger at regular intervals, which enable tasks like blinking LEDs or sampling sensors
+			2. Counters: count pulses for events like external signals or clock cycles and can be used in applications like frequency measurement 
+			3. watchdog timer: monitors the system and resets the microcontroller if the program becomes unresponsive, which then also improves reliability 
+		5. Analog to Digital converter: 
+			1. converts analog signals from sensors into digital data that the CPU can process
+				1. have a certain resolution ( 8-bit, 10-bit, 12-bit, etc) that determines the precision of the conversion 
+				2. sampling rate: determines how frequently the ADC can sample an analog signal, crucial for realtime applications
+		6. Digital to Analog converter: 
+			1. converts digital values back into analog signals, used usually in audio processing, motor control, and other applications that need precise analog output
+		7. Clock Source (Oscillator):  microcontrollers need a clock signla to synchronize operations 
+			1. internal oscillator: many microprocessors have an internal clock
+			2. external crystal oscillator: external clocks can provide more accurate timing, and are usually required for tasks like precise communication protocols
+			3. clock frequency affects processing speed
+		8. Communication modules: 
+			1. UART: allows serial communication between devices, usually used for debugging or connecting to other devices 
+			2. SPI: a fast, synchronous protocol used for high speed communication with devices like sensors, displays, and SD cards
+			3. I2C: a two wire, slower protocol suitable for communication with multiple peripherals on the same bus 
+			4. CAN: common in automotive applications for communication between ECUs
+		9. Interrupt controller: interrupts are signals that temporarily halt the CPU to address time sensitive events. they allow the microcontroller to respond quickly to external or internal events without continuously polling
+			1. external interrupt: triggered by external events like pressing a buttong
+			2. internal interrupt: caused by internal events, like a timer overflow
+			3. interrupt vector table: maps specific interrupts to their handler functions
+		10. Power management: 
+			1. sleep modes: reduce power consumption by disabling certain components when not needed, and allows the microcontroller to "wake up"  on specific events like a timer or interrupt 
+			2. low-power oscillators: used to keep the microcontroller running in low-power mode with a minimal clock frequency
+		11. special function registers: 
+			1. registers that control the microcontroller's peripherals, IO, and configuration settings. they allow the program to interact directly with hardware by setting flags, configuring modes, and monitoring statuses
+	4. ISR: Interrupt service Routine, a special function that's executed in response to an interrupt
+	5. pipelines: pipelining is a technique that's used to improve instruction throughput by breaking down instruction execution into several stages. each stage performs part of the instruction's execution, which then allows multiple instructions to be performed simultaneously like an assembly line, and can increase efficiency and speed of a processor, because it lets the CPU process a new instruction every clock cycle
+		1. 5 stages: 
+			1. fetch: cpu fetches the next instruction from memory
+			2. decode: the cpu decodes the fetched instruction to determine what operation it needs to perform and which resources are required
+			3. execute: the actual operation happens to the data
+			4. memory access: if reading or writing is involved, or RAM is involved, this is where it comes in 
+			5. write back: the operation result is written back to a register or memory
+	6. peripherals: extend the microcontroller's capabilities by providing interfaces to interact with external devices or perform specific functions within the microcontorller itself. some common peripherals include: 
+		1. General purpose IO (GPIO) pins: a basic interface for controlling external components like LEDs, buttons, and sensors 
+			1. input mode: reads data from external sources, for ex, a button can send a high or low signal to indicate whether its pressed 
+			2. output mode: sends signals to external devices, like sending a high signal to go turn on an LED
+			3. alternate functions: GPIO pins can also sometimes have multiple functions, like being reassigned to other peripherals 
+		2. Timers & Counters: crucial for managing timing-related tasks without heavy CPU involvement 
+			1. timers: generate precise time delays or periodic events, and are often used to create delays, measure intervals, or generate waveforms 
+			2. counters: count external events or pulses
+			3. Pulse Width modulation(PWM) generation: some timers can generate PWM signals for tasks like motor speed control or LED brightness 
+7. RTOS specific questions
+	1. realtime: having timeless requirements, typically in the form of deadlines that can't be missed ; realtime operating system: an operating system that is designed specifically for use in read time systems; real time system: any computer system that has timeless requirements. aka if a late answer is as bad, or even worse, than a wrong answer 
+	2. mutex vs semaphore
+		1. Mutex: mutual exclusion object, and is mainly used to provide mutual exclusion to a specific portion of the code so that the process can execute and work with a particular section of the code at a particular time. it enforces strict ownership, so only the thread that locks the mutex can unlock it, and because of this it is specifically used for locking a resource to make sure that it's only accessible by one thread at a time. this strictness is also what prevents mutexes from being used for signaling between threads, and instead makes it desireable for ensuring that a resource is accessible only by one thread at a time 
+			1. uses priority inheritance to avoid priority inversion issues, which keeps higher priority processes in the blocked state for the minimum possible time
+			2. advantages: no race conditions, data remains consistent, helps maintain integrity, simple locking mechanism 
+			3. disadvantages: if a thread falls asleep or gets preempted  by a high priority process, no other thread can enter into the critical section, and can lead to starvation, there's no other mechanisms to lock/unlock a critical section, and implementation of the mutex can led to busy waiting, which can waste CPU cycles
+			4. producer-consumer problem: a mutex provides mutual exclusion, and either the producer or the consumer can have the key (mutex) and then proceed with their work, and as long as the buffer is filled by the producer, then the consumer needs to wait and vice verse; so at any point in time, only one thread can work with the entire buffer.
+		2. Semaphore: a semaphore is a non-negative integer that's shared between several different threads, and works upon a signaling mechanism, which allows threads to control other threads. This is a less restrictive control mechanism, as any thread can invoke signal() and any other thread can invoke wait(), and there's no strict ownership in semaphores, so the thread that signals doesn't necessarily have to be the same one that waited. Semaphores are like traffic signals between threads, but a bit more chaotic and much less safe. This uses two main atomic operations for process synchronization: wait (P), signal (V)
+			1. advantages: 
+				1. multiple threads can access the critical section at the same time 
+				2. semaphores are machine-independent
+				3. only one process will access the critical section at a time, however, multiple threads are allowed
+				4. semaphores need to be run over microkernel
+				5. flexible resource management
+			3. disadvantages: 
+				1. has priority inversion 
+				2. semaphore operations (wait, signal) must be implemented in the correct manner to avoid deadlock
+				3. leads to a loss of modularity, so semaphores can't be used for large-scale systems
+				4. prone to programming errors, which can lead to deadlock or violation of mutual exclusion property
+				5. 
+	3. scheduling policies
+	4. context switches
+9. Linux questions
 	1. ssh 
 	2. vim 
 	3. bash/python
 	4. git 
 	5. gcc
 	6. man pages?
-8. systems knowledge: 
+10. systems knowledge: 
 	1. read()
 	2. write()
 	3. poll()
 	4. sockets
 	5. fork()
-	6. system calls
-	7. device drivers
-	8. device drivers
-9. what is RAII?
-	1. what is a constructor/destructor
-	2. when to call const/ destructor
-10. const
-11. static
-12. public/private
-13. what is an int? how many bytes? does it always have the same number of bytes? 
-14. what are macros?
-15. what is the mutable keyword?
-16. what does the C keyword volatile do?
-17. what does const do?
-18. when does it make sense to use a volatile const variable?
-19. is ++i or i++ faster?
-20. what is RTOS priority inversion and one way to resolve it?
-21. ADC/DAC SPI or I2C
-22. what is voltage to turn ratio
-23. bitwise operations 
+	6. system calls: calls that a program makes to the system kernel to provide the services which the program does not have direct access, for ex: access to IO devices
+		1. File Descriptor: an integer that uniquely identifies an open file of the process
+		2. File descriptor table: the collection of integer array indices that are file descriptors in which elements are pointers to file table entries, one unique table is provided in the OS for each process 
+		3. File table entry: a structure in-memory surrogate for an open file, which is created when processing a request to open the file and these entries maintain a file position 
+		4. standard file descriptors: when any process starts, that process file descriptor tables 0,1,2 open by default, and each of these three file descriptor references file table entry for a file named /dev/tty
+		5. there are 5 main types of IO syscalls in C: 
+			1. create() : int create(char * *filename*, mode_t *mode);
+				1. takes in the name of the file you want to create, and the permissions of the new file 
+				2. returns the first unused fd, which is usually 3 , and -1 if there's an error
+				3. creates a new empty file on the disk and a table entry
+			2. open(): int open (const char * *Path*, int *flags*);
+				1. takes in the path to the file we want to open as an absolute path beginning with / if not in the same dir, or relative path without / and with extension if we are in the same directory
+				2. there are also several flags that we can set to this action: 
+					1. ![[Pasted image 20241105233118.png]]
+			3. close(): int close(int fd); 
+				1. takes in the fd, file descriptor, of the file that we want to close
+				2. returns 0 if successful, or -1 if there's an error 
+			4. read(): size_t read (int *fd*, void *  *buf*, size_t *cnt*);
+				1. takes in the fd of the file we want to read, the buffer to read the data from, and cnt, the length of the buffer 
+				2. returnsthe number of bytes read on success, 0 on reaching the end of the file, -1 on an error, and -1 on signal interrupt 
+			5. write(): size_t write(int *fd*, void * *buf*, size_t *cnt*); 
+				1. takes in the fd, the buffer to write data from, and the length of the buffer 
+				2. returns the number of bytes written on success
+				3. returns 0 when the end of the file is reached 
+				4. returns -1 on an error 
+				5. returns -1 if there's a signal interrupt 
+	7. device drivers: a piece of software that enables communication between an OS or app and hardware or peripherals, basically a bridge between different parts of a computer and allows them to communicate and interact, generally through the computer bus
+11. what is RAII? "Resource Acquisition Is Initialization"
+	1. when an object is initialized, it acquires the resource that it needs (memory, file handle, network connection, etc,)
+	2. RAII ensures that resources are released even if exceptions occur, which prevents leaks and maintains program integrity 
+	3. makes automatic cleanup happen, keeping things nice and simple 
+12. what is a constructor/destructor
+	1. constructor: a constructor is a special method that's automatically invoked when an object class is first created, and is used to initialize the data members of new objects generally. Has the same name as the class or structure it is associated with, and constructs the values or provides data for the object that it's associated with. they do not have a return type and are usually declared in the public section of the class 
+		1. default constructor: no parameters, and used to create an object with default names
+		2. parameterized constructor: takes in parameters, and is used to create an object with specific initial values 
+		3. copy constructor: takes a reference to another object of the same class and is used to create a copy of that object 
+		4. move constructor: takes an rvalue reference to another object, and transfers resources from a temporary object 
+	2. destructor: an instance member function that is invoked automatically whenever an object is going to be destroyed, the last function to be called before an object is destroyed 
+		1. if memory is allocated by the object using new, the destructor must deallocate it using delete[]
+13. when to call const/ destructor
+	1. constructor: automatically called when an instance of the class is created
+	2. destructor: doesn't really need to be called explicitly unless we're dealing with memory management and/ or whenever objects are deallocated / destroyed (?)
+14. const: marks a variable's value as constant and that it is resistant to changes / edits made by the program, basically marks it as "read only"
+15. static: 
+16. public/private
+17. what is an int? how many bytes? does it always have the same number of bytes? 
+19. what is the mutable keyword?
+	1. in C++, objects are considered mutable if their state can be modified after they are created, like variables, whose values can be updated throughout the program, as opposed to const variables, which cannot be changed
+	2. the mutable keyword however, essentially overrides const, and allows us to modify a member variable of a class even when the object is declared as const, which can be useful for caching values or maintaining internal states that don't affect the object's logical constness
+	3. basically allows a particular data member of a const function to be modified, and allows the differentiation of bitwise const and logical const 
+		1. logical const is is when an object doesn't change in a way that's visible to the public interface
+	4. need to be careful about the usage, since it can competely destroy the constness of a function if used incorrectly, basically making it useless and possibly having negative affects on functionality. 
+20. what does the C keyword volatile do?
+	1. volatile is a qualifier that's applied to a variable when it's declared, which is meant to tell the compiler that the value of a var may change at any time
+	2. to declare a variable as volatile, we need to add "volatile" before the data type of the variable 
+22. when does it make sense to use a volatile const variable?
+	1. it's used in situations where a variable's value may change outside the program's control, but should not be modified by the code itself, such as in : 
+		1. microcontrollers: in embedded systems, a common scenario for volatile const is with memory-mapped hardware registers that are read-only but may change unexpectedly due to external factors . for ex: peripherals like ADCs , although should be constant, can update randomly from the hardware
+23. is ++i or i++ faster?
+	1. usually preincrement (++i) is slightly faster than i++, particularly in C++ since in preincrementation, the item is first incremented, and then the value is returned, so it increments i directly and does not need to create a temporary copy, whereas in post increment, i++, a temporary copy of i is created, then the original is incremented, and then the copy (nonincremented) is returned, which tends to be slower with more complex data types 
+24. what is RTOS priority inversion and one way to resolve it?
+	1. priority inversion is when a high priority task is blocked by a lower priority task, which is then also waiting on an even lower priority task, which can ultimately lead to missed deadlines in time sensitive applications 
+	2. priority inheritance is one way to solve this: when a lower priority task holds a resource that a high priority task needs, the lower priority task temporarily inherits the priority of the higher priority task, which allows the lower task to finish its work and release the resource more quickly, and then the priorities switch back. 
+25. Serial Peripheral interface (SPI) : facilitates short-distance communication between a microcontroller and one or more peripheral integrated circuits, a de facto standard
+26. Inter-Integrated Circuit (I2C): a simple two-wire serial protocol that's used to communicate between two devices or chips in an embedded system
+	1. two lines, SCL and SDA, SCL is used for the clock and SDA is used for data
+28. bitwise operations 
 	1. mask on
 	2. mask off 
 	3. shifts
 	4. etc
-24. embedded linux misc
-25. APQP product dev cycle
-26. ‘Making Embedded Systems: Design Patterns for Great Software’
-27. [https://rmbconsulting.us/publications/a-c-test-the-0x10-best-questions-for-would-be-embedded-programmers/](https://rmbconsulting.us/publications/a-c-test-the-0x10-best-questions-for-would-be-embedded-programmers/)
-28. common chip to chip communication protocols
-29. what chips are you familiar with?
-30. what framework, HALs, or SDKs have you used?
-31. sorting questions
-32. what is DMA, when to use it
-33. what is a vector interrupt controller
-34. have you used RTOS? Which?
-35. when to use RTOS
-36. mutex and semaphore questions
-37. have you used embedded linux?
-38. There are very limited interview resources for embedded systems. This statement becomes evident when you compare the Glassdoor interview experiences for job profiles like Software Engineer or even Data Scientist with Embedded System Engineer. Due to this, many candidates go unprepared for the interviews, so the success rate is low. My job allows me to interact with Embedded hiring managers from big tech companies such as Apple, Google, Amazon etc. and gather the information that can help candidates better help with their interviews. Following are some of the top interview questions on key topics of embedded systems that are very popular and often asked in interviews of these MAANG+ companies.  
-**System Design**  
-- Design a vending machine  
-- Design Oculus game controller  
-- Design VR glass  
-- Design apple pencil  
-- Design Audio Mixer (Asked at Facebook Reality Lab)  
-- Design a microkernel-based system which can load a file and start execution. (Asked at Facebook Reality Labs)  
-- Design Telemetry Service (Asked at Facebook for Embedded Software Engineering role)  
-- Design a protocol to send data from the host to the device x bytes at a time. (Asked at Facebook)  
-- Design a throwable Panoramic Ball Camera that Shoots 360-Degree Photos.  
-- Design a smart garden watering system with multiple zones. Optimize for performance and cost. Would you use a cloud-connected system?  
-- Design a Traffic Light Controller.  
+29. embedded linux misc
+30. APQP product dev cycle
+32. [https://rmbconsulting.us/publications/a-c-test-the-0x10-best-questions-for-would-be-embedded-programmers/](https://rmbconsulting.us/publications/a-c-test-the-0x10-best-questions-for-would-be-embedded-programmers/)
+33. common chip to chip communication protocols
+34. what chips are you familiar with?
+35. what framework, HALs, or SDKs have you used?
+36. sorting questions
+37. what is DMA, when to use it
+38. what is a vector interrupt controller
+39. have you used RTOS? Which?
+40. when to use RTOS
+41. mutex and semaphore questions
+42. have you used embedded linux?
+
+
 **Embedded C Questions**  
 - Describe how to multiply two 256-bit numbers using any 32-bit processor without FPU or special instructions. Two or more methods?  
 - When do you use memmove() instead of memcpy() in C? Describe why.  
@@ -110,11 +269,7 @@
 - Which real-time software metrics are the most important, according to you?  
 - What are the pros and cons of using a real-time OS on a mid-range micro-controller?  
 - How do event-driven real-time systems overcome the bottlenecks of systems with shared concurrency systems?  
-- How do test-and-set instructions work and their usage in the locking mechanism for synchronization?  
-If you’re unsure about how to start your prep for your next Embedded Software Engineering, let Interview Kickstart be your guide. As pioneers in the [field of technical interview prep](https://www.interviewkickstart.com/courses/embedded-software-engineering-interview-masterclass/?utm_source=Reddit_PM&utm_medium=O9&utm_campaign=post&utm_term=embedded_interview_questions&utm_content=), we have trained hundreds of experienced engineers to crack the toughest interviews and land jobs at their dream companies, like Google & Apple.
-
-
-For embedded software positions, interviewers may ask non-software specific questions too: low-level processor questions, hardware questions, analog questions, RF questions, safety questions, host computer questions, or anything related to their business or their products (shows that you read up on their company and products). Some embedded software jobs may require you to do more than "just software". Some of the following doesn't have a right or wrong answer, but instead might be used to probe your experiences.
+- How do test-and-set instructions work and their usage in the locking mechanism for synchronization? 
 
 1) Which endianness is: A) x86 families. B) ARM families. C) internet protocols. D) other processors? One of these is kind of a trick question.
 
@@ -280,60 +435,6 @@ For embedded software positions, interviewers may ask non-software specific ques
 
 81) Describe how to multiply two 256-bit numbers using any 32-bit processor without FPU or special instructions. Two or more methods?
 
-
-
-I frequently get asked for advice on getting into embedded internships and entry level, so I decided to put together a simple guide based on my experience. Feel free to add your advice or perspective. Note that this is an embedded _software_ guide. There are many embedded systems jobs out there beyond software; this isn't the only path.
-
-**Disclaimer:** This guide is based on my anecdotal, subjective experience. I'm a primarily self-taught embedded software / firmware engineer, living in the Bay Area, 1.5 YOE, with two embedded systems internships, and 1 full time firmware position, currently looking for my 2nd position, and currently interviewing with the high compensation companies. I decided to make this career change 2 years ago, with no prior software or technical degree or experience. What worked for me, may not work for you. I highly encourage you to continuously refine redirect your path based on your own research through talking with working engineers, looking at job postings, and reading articles.
-
-## Rule # 1: Build and show off skills that are in-demand by employers.
-
-This is the advice I give to anyone looking for a job in any industry.
-
-What are the skills that are in-demand? This is highly dependent on the area you live in, and the industries around you. Go to LinkedIn / Google / Indeed, and look at all the entry level and internship job postings for embedded software / firmware, and tabulate skills that are asked for. This doesn't need to be rigorous, and there will probably be a bunch of terms and concepts that you don't know -- that's okay. For now, just focus on the common concepts.
-
-My list ended up looking something like this:
-
-- C
-- C++
-- Testing
-- RTOS
-- Board bring-up
-- Driver development
-- I2C
-- Sensors & Actuators
-- ARM
-- Linux Kernel Development
-- Python
-- Microcontrollers
-- UART
-- Bluetooth / Wifi / IEEE 802.11
-- System Debug
-- OS Architecture / Design
-- ...
-
-One thing to also notice is common clusterings of skills: microcontrollers, embedded linux, hardware testing, networking, automotive, and IoT are the common ones I've seen in my search.
-
-Personally, I focused on the most in-demand, broadest, and fundamental skills first, because I wanted a job, and I wanted the ability to pivot to different types of development if I ended up disliking a subfield.
-
-## Fundamentals
-
-The following topics / courses will give you a strong foundation for embedded systems software development, and questions about the basics will likely come up in interviews:
-
-1. **Introduction to Programming.** [CS50](https://www.edx.org/course/cs50s-introduction-to-computer-science) is a great first course. Covers a lot, but has a ton of auxiliary resources.
-2. **Data Structures and Algorithms.** There's tons of resources out there already, so I won't go into that here.
-3. **Computer Organization / Systems.** (Learn the basic hardware in a computer, and learn assembly)
-4. **Operating Systems.** The combination of a good computer organization and assembly course, with a good operating systems course answered so many questions for me and filled in a ton of blanks.
-
-## How do I build these skills?
-
-1. A computer engineering, electrical engineering, or computer science degree, with a selection of electives focused on embedded software concepts will get you 75% of the way to a job, and will make it significantly easier for you to get interviews.
-    
-2. [Embedded Systems Rule the World](http://users.ece.utexas.edu/%7Evalvano/Volume1/E-Book/), and [Real-Time Bluetooth Networks - Shape the World](https://www.edx.org/course/real-time-bluetooth-networks-shape-the-world) will get you good enough projects to land a job if you complete them, and if you can intelligently talk about the covered topics. Whether you're self-taught, or getting a degree, I 100% recommend working through these two courses as a first step towards getting employable, real world skills. (If you're completely new to programming, complete CS50 first).
-    
-3. Learn to Google! There are so many resources out there, at all levels, to help with your learning. Each concept that you need to learn, you need to understand why people use it, alternatives, what problem it solves, and ways to implement it. Find tutorials that work for you -- for some concepts, I've had to go through multiple textbooks and multiple tutorials before they finally clicked. Be a relentless autodidact.
-    
-
 ### Specific Resources
 
 |Concept|Resources|
@@ -364,19 +465,7 @@ The "Making Embedded Systems" book by Elecia White ([/u/logicalelegance](https:/
 
 [Adafruit](https://learn.adafruit.com/). The 'working out of the box' hardware paired with newbie friendly tutorials are a nice starting point. Professional development kits and datasheets are oriented towards people who've already worked on similar systems, so there is quite a bit of assumed context someone new to the field doesn't have.
 
-## Applications
-
-The best way to get your application moved forward is through personal connections, and recommendations. But, sometimes that isn't an option, and you have to cold apply.
-
-My advice is to apply to positions that you meet >=50% of the requirements.
-
-Make sure you get you resume reviewed by professionals in the field before applying.
-
-If you get a low response rate, you need to get your resume re-reviewed, or you need to build better projects that better demonstrate the skills employers are looking for.
-
-## Interview Questions
-
-In addition to typical software interview preparation, embedded software interviews tend to ask some repetitive questions. I don't know how many times I've answered what volatile and static are. Here are some typical questions:
+## More Interview Questions
 
 - What is static?
 - What is volatile?
@@ -394,10 +483,6 @@ In addition to typical software interview preparation, embedded software intervi
 - How does an OS manage memory?
 
 
-
-Really nice list of questions. Most are great, some feel a little bit outdated or domain specific: 39, 51, 70, 75.
-
-Q78 might be better asked as "how would you manually unroll a loop?" I think many people are aware of the pattern, but don't know how it is called.
 
 Some questions for larger embedded systems might also be a good idea:
 
